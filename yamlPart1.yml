@@ -1,0 +1,38 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+stages:
+ - stage: 'stage1'
+  #  condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+   pool:
+    vmImage: ubuntu-latest
+    displayname: 'Build Stage'
+    demands:
+     - Agent.Name -equals ubuntu-latest
+   jobs:
+    - job: 'Build1'
+      pool:
+        vmImage: ubuntu-20.04
+      steps:
+      - script: echo Hello, world! from Build1
+        displayName: 'Script1'
+      - task: PublishBuildArtifacts@1
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'drop'
+          publishLocation: 'Container'
+        condition: eq(variables['Build.SourceBranch'], 'feature')
+    
+    - job: 'Build2'
+      # pool:
+      #   vmImage: ubuntu-18.04 
+      steps:
+      - script: echo Hello, world! from Build2
+        displayName: 'Script2'
+
+     
