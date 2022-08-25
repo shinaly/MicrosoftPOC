@@ -29,8 +29,8 @@ stages:
         condition: eq(variables['Build.SourceBranch'], 'feature')
     
     - job: 'Build2'
-      # pool:
-      #   vmImage: ubuntu-18.04 
+      pool:
+        vmImage: ubuntu-18.04 
       steps:
       - script: echo Hello, world! from Build2
         displayName: 'Script2'
